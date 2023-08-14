@@ -11,7 +11,12 @@ const constantRouter: baseRouter[] = [
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path:'/registry',
+    element:<Login />
   }
+
 ];
 
 export default constantRouter;

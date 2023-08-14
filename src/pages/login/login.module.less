@@ -2,14 +2,14 @@
   width: 100%;
   min-height: 100%;
   position: absolute;
+  background-image: url("C:\Users\ASUS\Pictures\Camera Roll\wallhaven-yxvd1x.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 .login-view-left {
   position: absolute;
   display: block;
-  background-image: url("C:\Users\ASUS\Pictures\Camera Roll\wallhaven-2yoeqx.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
 .login-view-right {
@@ -25,32 +25,41 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: aquamarine;
+  transform: translate(-50%, 75%);
+  background-color: rgba(255,255,255, .7);
   border-radius: 8px;
+  transition: opacity 0.7s ease;
 }
 
-
 .box {
-    background-color: #ccc;
-    padding: 20px;
-    transition: opacity 0.3s ease;
-  }
-  
+  // background-color: #ccc;
+  padding: 20px;
+  transition: opacity 0.3s ease;
+}
+
 //   .fade-enter {
 //     opacity: 0;
 //   }
-  
+
 //   .fade-enter-active {
 //     opacity: 1;
 //     transition: opacity 0.7s ease;
 //   }
-  
+
 //   .fade-exit {
 //     opacity: 1;
 //   }
-  
+
 //   .fade-exit-active {
 //     opacity: 0;
 //     transition: opacity 0.7s ease;
 //   }
+
+.login-change-btn {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  right: 0;
+}

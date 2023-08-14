@@ -14,3 +14,10 @@ export function http_user_list(params:any) {
   });
 }
 
+export function http_user_login(params:any){
+  return request({
+    url:"/api/users/login",
+    method:'post',
+    data:params
+  })
+}
