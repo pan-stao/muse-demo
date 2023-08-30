@@ -3,9 +3,12 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import { Provider } from 'react-redux';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
-import { store } from './redux';
+import { store ,persistor} from './redux';
 import reportWebVitals from './reportWebVitals';
 import './mock/list.js';
+
+import {PersistGate} from 'redux-persist/integration/react'
+
 
 import '@/styles/common.less'
 
@@ -14,9 +17,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
      <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
       <App />
     </StyleProvider>
+    </PersistGate>
   </Provider>
 );
 

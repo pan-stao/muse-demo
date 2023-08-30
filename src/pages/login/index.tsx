@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { Col, Row, Form, Input, Button } from "antd";
-// import { CSSTransition } from "react-transition-group";
-import Animation from "@/components/animation";
 import { useNavigate } from "react-router-dom";
-
-import {http_user_login} from '@/api/user/user'
+import { connect } from "react-redux";
+import { Col, Row, Form, Input, Button } from "antd";
+import Animation from "@/components/animation";
+// import { CSSTransition } from "react-transition-group";
+import { transitionStylesLogin, LoginTypes } from "./defined";
+import { http_user_login } from "@/api/user/user";
 
 import style from "./login.module.less";
+import { IDEState } from "@/redux/rootReducer";
+import { InitialState, actions } from "@/redux/modules/user/userRedux";
 
-enum LoginTypes {
-  LOGIN = "login",
-  REGISTRY = "registry",
-}
-
-const transitionStylesLogin = {
-  // entering: { transform: "translateX(100px)" },
-  entered: { transform: "translateX(0px)" },
-  // exiting: { transform: "translateX(-100%)" },
-  exited: { transform: "translateX(0px)" },
+const mapStateToProps = (state: IDEState): InitialState => {
+  return {
+    ...state.userReducer,
+  };
 };
-// const transitionStylesReg = {
-//   // entering: { transform: "translateY(0%)" },
-//   entered: { transform: "translateY(-1000px)" },
-//   // exiting: { transform: "translateY(0px)" },
-//   exited: { transform: "translateY(0px)" },
-// };
 
-const LoginView: React.FC = () => {
+const mapDispatchToProps = { ...actions };
+interface Props {
+  id?: string;
+  userInfo: any;
+  loadLogin?: (params: any) => void;
+  changeId:(res:string)=>{}
+  handleUserInfo:any;
+}
+const LoginView: React.FC<Props> = (props: Props) => {
+  const {  handleUserInfo,changeId } = props;
   const [isShown, setIsShown] = useState<boolean>(false);
   const [urlPathName, setUrlPathName] = useState<string>("");
 
@@ -62,22 +62,20 @@ const LoginView: React.FC = () => {
     try {
       await form.validateFields();
       const params = values;
-     const res = await http_user_login(params)
-     console.log('res',res)
-     if (res.status === 1) {
-      // const { token, userInfo } = res.data;
-      // const { phone, nickname, avatarUrl, roleType } = userInfo;
-      // // setToken(token);
-      // localStorage.setItem('phone', phone);
-      // localStorage.setItem('nickname', nickname);
-      // localStorage.setItem('avatar', avatarUrl);
-      // localStorage.setItem('roleType', roleType);
-      navigate('/home');
-    }
-
-    } catch {
-
-    }
+      const res = await http_user_login(params);
+      handleUserInfo(res?.userInfo)
+      changeId(res?.userId)
+      if (res.status === 1) {
+        // const { token, userInfo } = res.data;
+        // const { phone, nickname, avatarUrl, roleType } = userInfo;
+        // // setToken(token);
+        // localStorage.setItem('phone', phone);
+        // localStorage.setItem('nickname', nickname);
+        // localStorage.setItem('avatar', avatarUrl);
+        // localStorage.setItem('roleType', roleType);
+        navigate("/home");
+      }
+    } catch {}
   };
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
@@ -169,4 +167,4 @@ const LoginView: React.FC = () => {
   );
 };
 
-export default LoginView;
+export default connect(mapStateToProps, mapDispatchToProps)(LoginView);

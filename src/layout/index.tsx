@@ -1,17 +1,30 @@
 import React from "react";
-
+import { connect } from "react-redux";
 import { Layout } from "antd";
-import { Outlet } from "react-router-dom";
 import HeaderView from "./component/header";
 import SideMenu from "./component/side";
+import ContentView from "./component/content";
 
-const { Sider, Content } = Layout;
+import { IDEState } from "@/redux/rootReducer";
+import { InitialState, actions } from "@/redux/modules/user/userRedux";
 
-const HomeLayout: React.FC = () => {
+const { Sider } = Layout;
+
+const mapStateToProps = (state: IDEState): InitialState => {
+  return {
+    ...state.userReducer,
+  };
+};
+
+interface Props {
+  userInfo: any;
+}
+
+const mapDispatchToProps = { ...actions };
+const HomeLayout: React.FC<Props> = ({ userInfo }) => {
   return (
     <>
-      <HeaderView />
-
+      <HeaderView userInfo={userInfo} />
       <Layout
         style={{
           height: "100vh",
@@ -23,12 +36,10 @@ const HomeLayout: React.FC = () => {
         <Sider trigger={null} collapsible collapsed={undefined} width={210}>
           <SideMenu />
         </Sider>
-        <Content>
-          <Outlet />
-        </Content>
+        <ContentView />
       </Layout>
     </>
   );
 };
 
-export default HomeLayout;
+export default connect(mapStateToProps, mapDispatchToProps)(HomeLayout);
